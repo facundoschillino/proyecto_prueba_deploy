@@ -136,5 +136,5 @@ if 'RENDER' in os.environ:
                       'whitenoise.middleware.WhiteNoiseMiddleware')
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-    CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
+    CLOUDINARY_URL = [os.environ.get("CLOUDINARY_URL")]
     DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
