@@ -10,7 +10,6 @@ class FotoAdmin(admin.ModelAdmin):
 
     def preview(self, obj):
         if obj.imagen:
-            # Cloudinary ya te da una URL pública
             return format_html('<img src="{}" style="height:80px;">', obj.imagen.url)
         return "—"
     preview.short_description = "Miniatura"
