@@ -119,13 +119,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 MEDIA_URL = "/media/"
-CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
+
 STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
+
+STORAGES = {
+  'default': {
+    'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage' 
+  },
+  'staticfiles': {
+    'BACKEND': 'django.core.files.storage.FileSystemStorage'
+  },
+}
 
 if 'RENDER' in os.environ:
     print("USING RENDER.COM SETTINGS!")
@@ -135,6 +146,4 @@ if 'RENDER' in os.environ:
     MIDDLEWARE.insert(MIDDLEWARE.index('django.middleware.security.SecurityMiddleware') + 1,
                       'whitenoise.middleware.WhiteNoiseMiddleware')
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-    CLOUDINARY_URL = [os.environ.get("CLOUDINARY_URL")]
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+    
