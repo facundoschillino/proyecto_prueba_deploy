@@ -125,11 +125,15 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
+#CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
+
 
 STORAGES = {
-        "default":    {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"},
-        "staticfiles":{"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+        "default":
+                {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"},
+
+        "staticfiles":
+                {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
     }
 
 if 'RENDER' in os.environ:
