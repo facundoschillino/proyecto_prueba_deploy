@@ -1,0 +1,55 @@
+{% load cloudinary %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Noticias</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <h1>Noticias</h1>
+
+  <div class="grid">
+    {% for noticia in noticias %}
+      <article class="card">
+        <div class="media">
+          {% if noticia.portada %}
+            {% cloudinary noticia.portada.name width=1280 height=720 crop="fill" fetch_format="auto" quality="auto" alt=noticia.titulo %}
+          {% elif noticia.video %}
+            <video controls preload="metadata">
+              <source src="{{ noticia.video.url }}" type="video/mp4">
+              Tu navegador no soporta el video.
+            </video>
+          {% else %}
+            <div class="placeholder">Sin portada ni video</div>
+          {% endif %}
+        </div>
+
+        <div class="content">
+          <h2 class="title">{{ noticia.titulo }}</h2>
+
+          {#Si hay portada y video #}
+          {% if noticia.video and noticia.portada %}
+            <div style="margin-top:10px;">
+              <video controls preload="metadata" style="border-radius:8px; max-height:360px;">
+                <source src="{{ noticia.video.url }}" type="video/mp4">
+                Tu navegador no soporta el video.
+              </video>
+            </div>
+          {% endif %}
+
+          <div class="actions" style="margin-top:10px;">
+            {% if noticia.pruebas_en_pdf %}
+              <a href="{{ noticia.pruebas_en_pdf.url }}" target="_blank" rel="noopener noreferrer">📄 Ver/descargar PDF</a>
+            {% else %}
+              <span class="placeholder">Sin PDF adjunto</span>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+    {% empty %}
+      <p>No hay noticias aún.</p>
+    {% endfor %}
+  </div>
+</body>
+</html>

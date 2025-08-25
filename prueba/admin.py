@@ -1,15 +1,16 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Foto
+from .models import Noticia
 
-@admin.register(Foto)
-class FotoAdmin(admin.ModelAdmin):
-    list_display = ("id", "titulo", "preview", "creado")
+@admin.register(Noticia)
+class NoticiaAdmin(admin.ModelAdmin):
+    list_display = ("id", "titulo", "preview")
     search_fields = ("titulo",)
     readonly_fields = ("preview",)
 
     def preview(self, obj):
-        if obj.imagen:
-            return format_html('<img src="{}" style="height:80px;">', obj.imagen.url)
+        if obj.portada:
+            return format_html('<img src="{}" style="height:80px;">', obj.portada.url)
         return "—"
     preview.short_description = "Miniatura"
+

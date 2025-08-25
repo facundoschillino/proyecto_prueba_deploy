@@ -119,27 +119,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 MEDIA_URL = "/media/"
 STATIC_URL = '/static/'
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
-
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get("CLOUD_NAME"),
-    'API_KEY': os.environ.get("API_KEY"),
-    'API_SECRET': os.environ.get("API_SECRET")
-}
-
-STORAGES = {
-        "default":
-                {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"},
-
-        "staticfiles":
-                {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+   'CLOUD_NAME': os.environ.get("CLOUDINARY_CLOUD_NAME"),
+   'API_KEY': os.environ.get("CLOUDINARY_API_KEY"),
+   'API_SECRET': os.environ.get("CLOUDINARY_API_SECRET")
     }
+
+##Settings de produccion
 
 if 'RENDER' in os.environ:
     print("USING RENDER.COM SETTINGS!")
@@ -148,5 +140,13 @@ if 'RENDER' in os.environ:
     DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
     MIDDLEWARE.insert(MIDDLEWARE.index('django.middleware.security.SecurityMiddleware') + 1,
                       'whitenoise.middleware.WhiteNoiseMiddleware')
+    MEDIA_URL = "/media/"
+    STORAGES = {
+        "default":
+                {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"},
+
+        "staticfiles":
+                {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
+    }
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     
